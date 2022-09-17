@@ -27,3 +27,21 @@ const books = [
     img: "https://eloquentjavascript.net/img/cover.jpg"
   }
 ];
+
+const processedBooks = books.map(el => el = { displayedAuthor: el.author.trim().split(' ').reverse().join(', '), ...el })
+processedBooks.sort((a, b) => { return b.author.trim().split(' ')[1] < a.author.trim().split(' ')[1] ? 1 : -1 });
+console.log(processedBooks);
+for (const book of processedBooks) {
+  document.querySelector('.book-list.card-column').innerHTML += (`
+  <div class="card book" style="width: 18rem;">
+  <img class="card-img-top book-cover h-100" src="${book.img}" alt="${book.title} cover image">
+  <div class="card-body">
+    <h5 class="card-title">${book.title}</h5>
+    <p class="card-text text-muted">${book.author}</p>
+  </div>
+  <div class="card-body card-footer d-flex d-flex justify-content-end align-items-center" style='min-height:70px'>
+    <div class="rounded-pill px-2 card-link well status text-light ${book.alreadyRead ? 'bg-success' : 'bg-secondary'}">${book.alreadyRead ? 'Read' : 'To read'}</div>
+  </div>
+</div>
+`);
+}
